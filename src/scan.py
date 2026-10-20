@@ -52,9 +52,9 @@ FELDER = "id,internalDate,labelIds,payload(headers)"
 # Bei diesen Fehlercodes sagt Google "zu schnell, versuch es gleich nochmal".
 NOCHMAL_VERSUCHEN = [403, 429, 500, 502, 503]
 
-# Diese Kopfzeilen jeder Mail brauchen wir. Die letzten vier verraten Massenmails (Newsletter,
+# Diese Kopfzeilen jeder Mail brauchen wir. Die letzten beiden verraten Massenmails (Newsletter,
 # Benachrichtigungen), egal wer der Absender ist. Mehr Kopfzeilen kosten kein zusätzliches Kontingent.
-KOPFZEILEN = ["From", "Subject", "List-Unsubscribe", "List-Id", "Feedback-ID", "Precedence"]
+KOPFZEILEN = ["From", "Subject", "List-Unsubscribe", "List-Id"]
 
 
 def text_dekodieren(text):
@@ -87,8 +87,6 @@ def mail_vereinfachen(antwort):
         # Kennzeichen von Massenmails (Newsletter, Benachrichtigungen). Persönliche Mails haben sie praktisch nie.
         "abmelde_header": "list-unsubscribe" in kopf,   # "Abmelden"-Link für das Mailprogramm
         "liste_header": "list-id" in kopf,              # Kennung einer Verteilerliste
-        "feedback_header": "feedback-id" in kopf,       # Kennung von Massenversendern für Google
-        "massenmail_header": kopf.get("precedence", "").strip().lower() in ["bulk", "list", "junk"],
     }
 
 

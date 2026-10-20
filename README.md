@@ -1,7 +1,7 @@
 # GmailCleaner
 
-Ein Python-Werkzeug, das ein überfülltes Gmail-Postfach analysiert, Newsletter und Werbung erkennt
-und mit einer lokal laufenden KI prüft, ob darunter doch etwas Wichtiges ist.
+Ein Python-Werkzeug, das ein überfülltes Gmail-Postfach analysiert, mit einer lokal laufenden KI
+jede Mail einordnet (Werbung, Benachrichtigung, Rechnung, Sicherheitsmail …) und vorschlägt, was weg kann.
 
 ## Motivation
 
@@ -15,18 +15,20 @@ Bestellbestätigung landet schnell bei "Werbung", und wer die Kategorie pauschal
 Umgekehrt stecken viele Newsletter im Hauptpostfach, wo man sie nicht vermutet.
 
 Genau das war die Motivation: nicht blind nach Googles Kategorien löschen, sondern selbst prüfen,
-was eine Mail wirklich ist. Dieses Projekt erkennt Massenmails anhand eigener Merkmale, lässt eine KI
-nach wichtigen Mails suchen, die fälschlich dazwischen geraten sind, und lässt die Entscheidung beim Nutzer.
+was eine Mail wirklich ist. Dieses Projekt lässt eine lokale KI anhand von Absender, Betreff und Text
+bestimmen, welche Art Mail es ist, entscheidet mit klaren Regeln und mehreren Sicherungen, was weg kann,
+und lässt die letzte Entscheidung beim Nutzer.
 
 ## Was es macht
 
 1. **Einlesen** aller Mails, wahlweise über die Gmail-API oder in Sekunden aus der lokalen Datenbank von Apple Mail
-2. **Vorfiltern** von Massenmails anhand technischer Kennzeichen (z. B. `List-Unsubscribe`), auch wenn Gmail sie falsch einsortiert hat
-3. **KI-Prüfung** mit einem lokalen Sprachmodell: Sind unter den Kandidaten Rechnungen, Bestellungen oder Persönliches? *(in Arbeit)*
-4. **Aufräumen** in den Papierkorb, erst nach Bestätigung *(geplant)*
+2. **Gruppieren** nach Absender-Adresse und Betreff-Muster; Eigenes, Entwürfe und markierte Mails bleiben unberührt
+3. **Art-Erkennung** mit einem lokalen Sprachmodell: Werbung, Benachrichtigung, Transaktion, Sicherheit/Konto oder Persönlich
+4. **Regeln und Sicherungen** entscheiden, was löschbar ist, z. B. Werbung ja, alte Benachrichtigungen ja, Rechnungen nie.
+   Widersprüche im Text (Bestellnummer, "neue Anmeldung" …) oder Absender, die sonst Wichtiges schicken, führen zu "prüfen"
+5. **Aufräumen** in den Papierkorb, erst nach Bestätigung *(geplant)*
 
-In einem Postfach mit rund 20.000 Mails fand der Vorfilter etwa 13.700 Kandidaten von nur 121 Absendern.
-Aus Tausenden Einzelentscheidungen werden so ein paar Dutzend.
+Ein Postfach mit rund 20.000 Mails ergab knapp 600 Absender-Adressen; die 50 größten machen 84 % der Mails aus.
 
 ## Technik
 
@@ -39,7 +41,7 @@ Aus Tausenden Einzelentscheidungen werden so ein paar Dutzend.
 
 - **Umgang mit API-Limits:** Gmail erlaubt nur eine begrenzte Zahl Abfragen pro Minute. Das Programm verteilt die Anfragen gleichmäßig, erkennt Ablehnungen, bremst selbstständig und merkt sich die Grenze.
 - **Fortsetzbar:** Jedes Paket wird sofort zwischengespeichert. Nach einem Abbruch geht es an derselben Stelle weiter, fehlgeschlagene Mails werden protokolliert und zuerst wiederholt.
-- **Datenschutz:** Es werden keine Mailtexte gelesen, nur Absender, Betreff und Kennzeichen. Die KI läuft lokal.
-- **Sicherheit vor Bequemlichkeit:** Die KI kann Mails nur vor dem Löschen retten, nie zum Löschen vorschlagen. Gelöscht wird nur in den Papierkorb.
+- **Datenschutz:** Mailtexte werden nur lokal gelesen, aus den Dateien von Apple Mail. Die KI läuft auf dem eigenen Rechner, nichts geht an einen Cloud-Dienst.
+- **Sicherheit vor Bequemlichkeit:** Die KI bestimmt nur die Art einer Mail, nicht ob sie gelöscht wird. Das entscheiden feste Regeln, mehrere unabhängige Sicherungen und am Ende der Nutzer. Gelöscht wird nur in den Papierkorb.
 
 

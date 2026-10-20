@@ -131,8 +131,6 @@ def zeile_umwandeln(zeile, eigene_adresse):
         "labels": labels,
         "abmelde_header": bool(abmelde),          # Apple erkennt Abmelde-Links selbst
         "liste_header": bool(liste),              # Apple speichert eine Kennung der Verteilerliste
-        "feedback_header": False,                 # kennt Apple Mail nicht
-        "massenmail_header": False,               # kennt Apple Mail nicht
         "quelle": "apple_mail",
         "message_id_header": message_id_header or "",  # brauchen wir später, um die Mail in Gmail wiederzufinden
     }
@@ -212,6 +210,7 @@ def lokal_lesen(konto):
         try:
             mail = zeile_umwandeln(zeile, konto["adresse"])
             mail["konto"] = konto["adresse"]  # damit später klar ist, aus welchem Konto die Mail stammt
+            mail["konto_kennung"] = konto["kennung"]  # Ordnername in ~/Library/Mail, für den Mailtext
         except Exception as fehler:
             fehlerliste["apple-zeile-" + str(zeile[0])] = {"status": None, "meldung": str(fehler)[:200], "details": ""}
             continue
