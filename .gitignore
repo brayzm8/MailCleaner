@@ -3,3 +3,5 @@ token.json
 .venv/
 __pycache__/
 *.db
+reports/
+regeln.json
