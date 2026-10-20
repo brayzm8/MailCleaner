@@ -9,8 +9,14 @@ E-Mail-Postfächer müllen schnell zu: Newsletter, Shop-Angebote, Social-Media-B
 Kaum jemand öffnet sie, kaum jemand löscht sie. Irgendwann ist der kostenlose Speicher bei Google voll,
 und statt aufzuräumen landet man beim kostenpflichtigen Speicher-Upgrade.
 
-Von Hand Tausende Mails durchzugehen ist mühsam, und man hat Angst, die eine wichtige Rechnung zu erwischen.
-Dieses Projekt automatisiert die Fleißarbeit und lässt die Entscheidung beim Nutzer.
+Natürlich kann man in Gmail von Hand aufräumen oder einfach eine ganze Kategorie wie "Werbung" oder
+"Soziale Netzwerke" leeren. Das Problem: Googles Einordnung ist nicht zuverlässig. Eine Rechnung oder
+Bestellbestätigung landet schnell bei "Werbung", und wer die Kategorie pauschal löscht, verliert sie mit.
+Umgekehrt stecken viele Newsletter im Hauptpostfach, wo man sie nicht vermutet.
+
+Genau das war die Motivation: nicht blind nach Googles Kategorien löschen, sondern selbst prüfen,
+was eine Mail wirklich ist. Dieses Projekt erkennt Massenmails anhand eigener Merkmale, lässt eine KI
+nach wichtigen Mails suchen, die fälschlich dazwischen geraten sind, und lässt die Entscheidung beim Nutzer.
 
 ## Was es macht
 
